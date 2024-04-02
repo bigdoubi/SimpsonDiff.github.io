@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <title>UD-planner</title>
+    <link rel="icon" type="image/x-icon" href="img/favicon.ico">
+
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/codemirror.min.css">
+    <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/codemirror.min.js"></script>
+    <script src="js/clipboard.min.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/video_comparison.js"></script>
+
+
+    <script src="js/katex.min.js"></script>
+    <script src="js/katex-auto-render.min.js"></script>
+    <link rel="stylesheet" href="css/katex.min.css">
+
+</head>
+
+
+<body>
+    <div class="container" id="main">
+        <div class="row">
+            <h2 class="col-md-12 text-center">
+                Universal Trajectory Optimization for Differential Driven Robots
+                <!-- <small>
+                    RA-L 2023 (accepted)
+                </small> -->
+            </h2>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <ul class="list-inline">
+                    <li>
+                        <a>
+                            Mengke Zhang
+                        </a><sup>1, 2</sup>
+                    </li>
+                    <li>
+                        <a>
+                            Zhichao Han
+                        </a><sup>1, 2</sup>
+                    </li>
+                    <li>
+                        <a href="http://zju-fast.com/research-group/chao-xu/">
+                            Chao Xu
+                        </a><sup>1, 2</sup>
+                    </li>
+                    <li>
+                        <a href="http://zju-fast.com/fei-gao/">
+                            Fei Gao
+                        </a><sup>1, 2</sup>
+                    </li>
+                    <li>
+                        <a href="http://zju-fast.com/research-group/yanjun-cao/">
+                            Yanjun Cao
+                        </a><sup>1, 2</sup>
+                    </li>
+                    <br>
+                    <li>
+                        <a href="http://www.cse.zju.edu.cn/">
+                            <sup>1</sup> ZJU-CSE
+                        </a>
+                    </li>
+                    <li>
+                        <a href="http://hzi.zju.edu.cn/">
+                            <sup>2</sup> HIZJU
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-4 col-md-offset-4 text-center">
+                <ul class="nav nav-pills nav-justified">
+                    <!-- <li>
+                        <a href="https://ieeexplore.ieee.org/document/10287548">
+                            <image src="img/coni_mpc_paper_image.jpg" height="60px">
+                                <h4><strong>Paper</strong></h4>
+                        </a>
+                    </li> -->
+                    <!-- <li>
+                        <a href="https://www.bilibili.com/video/BV1iX4y1s7e6">
+                            <image src="img/bilibili_icon.png" height="60px">
+                                <h4><strong>Video</strong></h4>
+                        </a>
+                    </li> -->
+                    <!-- <li>
+                        <a href="https://youtu.be/i1ZsvC7HDqU">
+                            <image src="img/youtube_icon.png" height="60px">
+                                <h4><strong>Video</strong></h4>
+                        </a>
+                    </li> -->
+                    <li>
+                        <a href="https://github.com/bigdoubi/SimpsonDiff">
+                            <image src="img/github-mark.png" height="60px">
+                                <h4><strong>Code</strong></h4>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+        <!-- TODO -->
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2" onmouseout="coni_stop()" onmouseover="coni_start()">
+                <div style="width: 100%; position: relative;">
+                    <div id="coni_mpc_demo"
+                        style="width: 100%; position: absolute; transition: opacity .2s ease-in-out; -moz-transition: opacity .2s ease-in-out; -webkit-transition: opacity .2s ease-in-out;">
+                        <video class="lazy" id="v0" width="100%" autoplay loop muted>
+                            <source data-src="img/teaser_compressed.mp4" />
+                        </video>
+                    </div>
+                    <img src="img/teaser_cover.png" width="100%" />
+                </div>
+            </div>
+            <!-- <div class="col-md-8 col-md-offset-2">
+                <p class="text-justify">
+                    </br>
+                    A quadrotor orbits a UGV by applying CoNi-MPC controller with a pre-computed circular trajectory in
+                    the UGV non-inertial frame.
+                    (a) is the accumulated shots of the quadrotor from the view of a camera on the UGV, which shows the
+                    relative circular trajectory of the quadrotor.
+                    (b) shows the experiment from a third-person view in the world frame, in which the flight trajectory
+                    appears chaotic along with the UGV S-shape trajectory.
+                </p>
+            </div> -->
+            <script type="text/javascript">
+                function coni_start() {
+                    document.getElementById('coni_mpc_demo').style.opacity = "1";
+                }
+                function coni_stop() {
+                    document.getElementById('coni_mpc_demo').style.opacity = "0";
+                }
+                coni_stop()
+            </script>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h1>
+                    Abstract
+                </h1>
+                <p class="text-justify">
+                    Differential driven robots are widely used in various scenarios, such as skid-steering and tracked robots. 
+                    The differences in the driving mechanism require different kinematic models to describe them. 
+                    What's more, considering the nonholonomic dynamics and possible lateral sliding, a comprehensive trajectory optimization framework is needed for efficiently computing trajectories for such robots. 
+                    In this paper, we propose a universal trajectory optimization framework that can be applied to common differential driven robots, enabling the generation of high-quality trajectories within a limited computation time. 
+                    We introduce a novel control quantities polynomial trajectory that adequately describes robots' motion. 
+                    We formulate the trajectory optimization problem with lower complexity while ensuring safety and operational efficiency. 
+                    We enhance the entire trajectory planning system to improve its robustness. 
+                    The effectiveness of our algorithm has been validated through simulations and real-world experiments. 
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h1>
+                    System framework
+                </h1>
+                <img src="img/coni_mpc_system_framework.svg" width="100%" />
+                <p class="text-justify"></br>
+                    The relative state is defined as the relative position ${}^N\boldsymbol{p}_B$ ($N$ and $B$ refer to
+                    the target non-inertial frame frame and the agent body frame, respectively), the relative velocity
+                    ${}^N\boldsymbol{v}_B$, and the relative orientation (quaternion) ${}^N\boldsymbol{q}_B$. The system
+                    also incorporates the angular velocity ${}^N\boldsymbol{\Omega}_N$ and linear acceleration
+                    ${}^N\boldsymbol{a}_N$ of the target from a low-cost MEMS IMU.
+                    The relative estimation can be generated either from a motion capture system or directly from our
+                    previous work of <a href="https://fast-fire.github.io/CREPES/">CREPES</a>, a relative estimation
+                    device.
+                    The proposed control method CoNi-MPC works as a high-level thrust and body rate controller and a
+                    low-level multi-stage PID controllers is used to track the thrust and body rate.
+                    The reference can be classified into two categories, fixed-point and fixed-plan schemes. The first
+                    can be used for leader-follower fashioned control, and the latter can be used for more complex tasks
+                    such as landing, orbit flight, and even more demanding ring crossing.
+                </p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h1>
+                    Experiments
+                </h1>
+            </div>
+            <div class="col-md-4 col-md-offset-2">
+                <h2>
+                    Fixed Point: UAV tracks a fixed point behind UGV
+                </h2>
+                <video class="lazy" id="v_fixed_point" width="160%" autoplay loop muted>
+                    <source data-src="img/fixed_point_one_compressed.mp4" />
+                </video>
+            </div>
+            <div class="col-md-4 col-md-offset-0">
+                <h2>
+                    Fixed Plan: UAV tracks a fixed landing trajectory
+                </h2>
+                <video class="lazy" id="v_fixed_plan" width="160%" autoplay loop muted>
+                    <source data-src="img/fixed_plan_one_compressed.mp4" />
+                </video>
+            </div>
+            <div class="col-md-8 col-md-offset-2">
+                <h2>
+                    Ring Crossing
+                </h2>
+                <p>
+                    The diameter of the ring is 420 mm. The size of the quadrotor is 203.9 mm x 197.5 mm. The free space
+                    for the quadrotor to pass the ring is only about 100 mm at each side.
+                </p>
+                <video class="lazy" id="v_ring_crossing" width="100%" autoplay loop muted>
+                    <source data-src="img/ring_crossing_compressed.mp4" />
+                </video>
+            </div>
+            <div class="col-md-4 col-md-offset-2">
+                <h2>
+                    More fixed-point experiments
+                </h2>
+                <video class="lazy" id="v_fixed_point_more" width="100%" autoplay loop muted>
+                    <source data-src="img/fixed_point_compressed.mp4" />
+                </video>
+            </div>
+            <div class="col-md-4 col-md-offset-0">
+                <h2>
+                    More fixed-plan experiments
+                </h2>
+                <video class="lazy" id="v_fixed_plan_more" width="100%" autoplay loop muted>
+                    <source data-src="img/fixed_plan_compressed.mp4" />
+                </video>
+            </div>
+            <div class="col-md-8 col-md-offset-2">
+                <h2>
+                    Outdoor experiment
+                </h2>
+                <p>
+                    Note there is <b>no GPS/SLAM/anchors</b> technology used to realize this task.
+                </p>
+                <video class="lazy" id="v_outdoor" width="100%" autoplay loop muted>
+                    <source data-src="img/outdoor_compressed.mp4" />
+                </video>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h1>
+                    Citation
+                </h1>
+                <textarea id="bibtex" class="form-control" readonly>
+@article{zhang2023coni,
+  title={CoNi-MPC: Cooperative Non-inertial Frame Based Model Predictive Control},
+  author={Zhang, Baozhe and Chen, Xinwei and Li, Zhehan and Beltrame, Giovanni and Xu, Chao and Gao, Fei and Cao, Yanjun},
+  journal={arXiv preprint arXiv:2306.11259},
+  year={2023}
+}
+</textarea>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <h1>
+                    Acknowledgements
+                </h1>
+            </div>
+            <div class="col-md-8 col-md-offset-2">
+                <p class="text-justify">
+                    We would like to thank Chice Xuan and Zhimiao Yu for helping us building up the test vehicles for
+                    indoor and outdoor experiments. We also would like to thank Qi Liu, Zhenjun Ying, and Zheng Wang for
+                    their technical supports of the relative estimation device, <a
+                        href="https://fast-fire.github.io/CREPES/">CREPES</a>.
+                </p>
+            </div>
+            <div class="col-md-8 col-md-offset-2">
+                <p class="text-justify">
+                    The code of this work is inspired by the work of <a
+                        href="https://github.com/uzh-rpg/rpg_mpc">rpg_mpc</a>.
+                </p>
+            </div>
+            <div class="col-md-8 col-md-offset-2">
+                <p class="text-justify">
+                    The website template was borrowed from <a href="http://mgharbi.com/">Michaël Gharbi</a> and <a
+                        href="https://dorverbin.github.io/refnerf">Ref-NeRF</a>.
+                </p>
+            </div>
+        </div>
+
+        <!-- contact -->
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-md-offset-2">
+                    <h1 style="font-size: 32px;">
+                        <!-- <strong>Contact us:</strong> -->
+                    </h1>
+                    <div class="row text-center">
+                        <div class="col-md-4">
+                            <a href="http://zju-fast.com">
+                                <img src="img/Fastlab.png" height="65px">
+                            </a>
+                            <a href="http://hzi.zju.edu.cn/" style="display:block; margin-top: 25px;">
+                                <img src="img/Hizju.png" height="58px">
+                            </a>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <a href="http://pages.fast-fire.space" class="text-center">
+                                        <img src="img/qrcode_page.png" height="125px">
+                                        <h4 style="margin-top: 2px;"><strong>Projects</strong></h4>
+                                    </a>
+                                </div>
+                                <div class="col-md-4">
+                                    <a href="https://u.wechat.com/EFFxPvWiRRmMD9T_LvDgm0k" class="text-center">
+                                        <img src="img/qrcode_weixin.png" height="125px">
+                                        <h4 style="margin-top: 2px;"><strong>WeChat</strong></h4>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 col-md-offset-2">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <p class="text-left">
+                                <strong style="font-size: 13px;">E-mail:</strong>
+                                <a href="mailto:yanjunhi@zju.edu.cn" style="font-size: 14px;">
+                                    yanjunhi@zju.edu.cn
+                                </a>
+                            </p>
+                        </div>
+                        <div class="col-md-5">
+                            <p class="text-left">
+                                <strong style="font-size: 13px;">Address:</strong>
+                                <a href="https://ditu.amap.com/place/B0G257WTA3" style="font-size: 14px;">
+                                    浙江省湖州市吴兴区西塞山路819号浙江大学湖州研究院B2幢
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <script>
+        renderMathInElement(
+            document.body,
+            {
+                delimiters: [
+                    { left: "$$", right: "$$", display: true },
+                    { left: "\\[", right: "\\]", display: true },
+                    { left: "$", right: "$", display: false },
+                    { left: "\\(", right: "\\)", display: false }
+                ]
+            }
+        );
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var lazyVideos = [].slice.call(document.querySelectorAll("video.lazy"));
+
+            if ("IntersectionObserver" in window) {
+                var lazyVideoObserver = new IntersectionObserver(function (entries, observer) {
+                    entries.forEach(function (video) {
+                        if (video.isIntersecting) {
+                            for (var source in video.target.children) {
+                                var videoSource = video.target.children[source];
+                                if (typeof videoSource.tagName === "string" && videoSource.tagName === "SOURCE") {
+                                    videoSource.src = videoSource.dataset.src;
+                                }
+                            }
+
+                            video.target.load();
+                            video.target.classList.remove("lazy");
+                            lazyVideoObserver.unobserve(video.target);
+                        }
+                    });
+                });
+
+                lazyVideos.forEach(function (lazyVideo) {
+                    lazyVideoObserver.observe(lazyVideo);
+                });
+            }
+        });
+    </script>
+</body>
+
+</html>
