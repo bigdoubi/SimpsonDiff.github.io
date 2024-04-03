@@ -117,39 +117,17 @@
         </div>
 
 
-        <!-- TODO -->
         <div class="row">
-            <div class="col-md-8 col-md-offset-2" onmouseout="coni_stop()" onmouseover="coni_start()">
-                <div style="width: 100%; position: relative;">
-                    <div id="coni_mpc_demo"
-                        style="width: 100%; position: absolute; transition: opacity .2s ease-in-out; -moz-transition: opacity .2s ease-in-out; -webkit-transition: opacity .2s ease-in-out;">
-                        <video class="lazy" id="v0" width="100%" autoplay loop muted>
-                            <source data-src="img/teaser_compressed.mp4" />
-                        </video>
-                    </div>
-                    <img src="img/teaser_cover.png" width="100%" />
-                </div>
+            <div class="col-md-8 col-md-offset-2 text-center">
+                <img src="img/head_figure.png" class="mx-auto d-block" width="75%" />
             </div>
-            <!-- <div class="col-md-8 col-md-offset-2">
+        </div>
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
                 <p class="text-justify">
-                    </br>
-                    A quadrotor orbits a UGV by applying CoNi-MPC controller with a pre-computed circular trajectory in
-                    the UGV non-inertial frame.
-                    (a) is the accumulated shots of the quadrotor from the view of a camera on the UGV, which shows the
-                    relative circular trajectory of the quadrotor.
-                    (b) shows the experiment from a third-person view in the world frame, in which the flight trajectory
-                    appears chaotic along with the UGV S-shape trajectory.
+                    Planning results for various differential driven robots. (a) Two-wheel differential driven robot. (b) Skid-steering robot. (c) Tracked robot.
                 </p>
-            </div> -->
-            <script type="text/javascript">
-                function coni_start() {
-                    document.getElementById('coni_mpc_demo').style.opacity = "1";
-                }
-                function coni_stop() {
-                    document.getElementById('coni_mpc_demo').style.opacity = "0";
-                }
-                coni_stop()
-            </script>
+            </div>
         </div>
 
 
@@ -173,24 +151,32 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <h1>
-                    System framework
+                    Simulation results
                 </h1>
-                <img src="img/coni_mpc_system_framework.svg" width="100%" />
-                <p class="text-justify"></br>
-                    The relative state is defined as the relative position ${}^N\boldsymbol{p}_B$ ($N$ and $B$ refer to
-                    the target non-inertial frame frame and the agent body frame, respectively), the relative velocity
-                    ${}^N\boldsymbol{v}_B$, and the relative orientation (quaternion) ${}^N\boldsymbol{q}_B$. The system
-                    also incorporates the angular velocity ${}^N\boldsymbol{\Omega}_N$ and linear acceleration
-                    ${}^N\boldsymbol{a}_N$ of the target from a low-cost MEMS IMU.
-                    The relative estimation can be generated either from a motion capture system or directly from our
-                    previous work of <a href="https://fast-fire.github.io/CREPES/">CREPES</a>, a relative estimation
-                    device.
-                    The proposed control method CoNi-MPC works as a high-level thrust and body rate controller and a
-                    low-level multi-stage PID controllers is used to track the thrust and body rate.
-                    The reference can be classified into two categories, fixed-point and fixed-plan schemes. The first
-                    can be used for leader-follower fashioned control, and the latter can be used for more complex tasks
-                    such as landing, orbit flight, and even more demanding ring crossing.
-                </p>
+                <div class="text-center">
+                    <img src="img/tracked_traj.png" class="mx-auto d-block" width="70%" />
+                </div>
+                <div style="width: 70%; margin-left: auto; margin-right: auto; font-size: 14px">
+                    Planning results with(lower) and without(upper) considering sideslip.
+                </div>
+            <br>
+                <div class="text-center">
+                    <img src="img/comp_method.png" class="mx-auto d-block" width="70%" />
+                </div>
+                <div style="width: 70%; margin-left: auto; margin-right: auto; font-size: 14px">
+                    Visual comparison of different methods. Proposed method and TEB are set to allow move backward.  
+                    We use Jump Point Search (JPS) as initial value, Differential-flatness Based Method [1], Timed Elastic Band (TEB) [2] as benchmark. 
+                </div>
+            <br>
+                <div class="text-center">
+                    <img src="img/replan.png" class="mx-auto d-block" width="80%" />
+                </div>
+                <div style="width: 80%; margin-left: auto; margin-right: auto; font-size: 14px">
+                    Simulation results for replanning. 
+                    We use 360° radar simulator to create maps during runtime. 
+                    The upper figure shows the simulation results of the U-shaped environment. The lower figure shows a specially designed environment containing many obstacles that may be sheltered. 
+                </div>
+                    
             </div>
         </div>
 
@@ -200,64 +186,92 @@
                     Experiments
                 </h1>
             </div>
-            <div class="col-md-4 col-md-offset-2">
-                <h2>
-                    Fixed Point: UAV tracks a fixed point behind UGV
-                </h2>
-                <video class="lazy" id="v_fixed_point" width="160%" autoplay loop muted>
-                    <source data-src="img/fixed_point_one_compressed.mp4" />
-                </video>
-            </div>
-            <div class="col-md-4 col-md-offset-0">
-                <h2>
-                    Fixed Plan: UAV tracks a fixed landing trajectory
-                </h2>
-                <video class="lazy" id="v_fixed_plan" width="160%" autoplay loop muted>
-                    <source data-src="img/fixed_plan_one_compressed.mp4" />
-                </video>
-            </div>
             <div class="col-md-8 col-md-offset-2">
                 <h2>
-                    Ring Crossing
+                    Two-wheel differential driven robot 
                 </h2>
-                <p>
-                    The diameter of the ring is 420 mm. The size of the quadrotor is 203.9 mm x 197.5 mm. The free space
-                    for the quadrotor to pass the ring is only about 100 mm at each side.
-                </p>
-                <video class="lazy" id="v_ring_crossing" width="100%" autoplay loop muted>
-                    <source data-src="img/ring_crossing_compressed.mp4" />
+                <video class="lazy" id="v_fixed_point" style="display: block; margin: 0 auto;" width="60%" autoplay loop muted>
+                    <source data-src="img/differential-driven.mp4" />
                 </video>
+                <div style="width: 80%; margin-left: auto; margin-right: auto; font-size: 14px">
+                    <a href="https://www.agilex.ai/chassis/2">TRACER MINI</a>
+                    is employed as our two-wheel differential driven robot platform, which is controlled through linear and angular velocity.
+                    Map is pre-built and <a href="https://www.nokov.com/">the motion capture system</a> is utilized for localization. 
+                </div>
             </div>
-            <div class="col-md-4 col-md-offset-2">
-                <h2>
-                    More fixed-point experiments
-                </h2>
-                <video class="lazy" id="v_fixed_point_more" width="100%" autoplay loop muted>
-                    <source data-src="img/fixed_point_compressed.mp4" />
-                </video>
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <h2>Skid-steering robot</h2>
+                    <p class="text-justify">
+                        <a href="https://www.agilex.ai/chassis/2">SCOUT MINI</a>
+                        is employed as our skid-steering robot platform, which is controlled via linear and angular velocity.
+                        We randomly place obstacles and use fastlio for localization, simulating the real-world application. 
+                    </p>
+                </div>
+                <!-- <div style="width: 80%; margin-left: auto; margin-right: auto; font-size: 14px">
+                    <a href="https://www.agilex.ai/chassis/2">SCOUT MINI</a>
+                    is employed as our skid-steering robot platform, which is controlled via linear and angular velocity.
+                    We randomly place obstacles and use fastlio for localization, simulating the real-world application. 
+                </div> -->
+                <div class="col-md-4 col-md-offset-2">
+                    <video class="lazy" id="video1" style="display: block; margin: 0 auto;" width="100%" autoplay loop muted>
+                        <source data-src="img/skid1.mp4" />
+                    </video>
+                    <div style="width: 80%; margin-left: auto; margin-right: auto; font-size: 14px">
+                        Online mapping and re-planning(ERROR)
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <video class="lazy" id="video2" style="display: block; margin: 0 auto;" width="100%" autoplay loop muted>
+                        <source data-src="img/skid2.mp4" />
+                    </video>
+                    <div style="width: 80%; margin-left: auto; margin-right: auto; font-size: 14px">
+                        Update the known map. 
+                    </div>
+                    <br>
+                </div>
+                <div class="col-md-4 col-md-offset-2">
+                    <video class="lazy" id="video1" style="display: block; margin: 0 auto;" width="100%" autoplay loop muted>
+                        <source data-src="img/skid2_batch.mp4" />
+                    </video>
+                </div>
+                <div class="col-md-4">
+                    <video class="lazy" id="video2" style="display: block; margin: 0 auto;" width="100%" autoplay loop muted>
+                        <source data-src="img/skid3_batch.mp4" />
+                    </video>
+                    <br>
+                </div>
+                <div class="col-md-4 col-md-offset-2">
+                    <video class="lazy" id="video2" style="display: block; margin: 0 auto;" width="100%" autoplay loop muted>
+                        <source data-src="img/skid4_batch.mp4" />
+                    </video>
+                </div>
+                <div class="col-md-4">
+                    <video class="lazy" id="video2" style="display: block; margin: 0 auto;" width="100%" autoplay loop muted>
+                        <source data-src="img/skid5_batch.mp4" />
+                    </video>
+                </div>
             </div>
-            <div class="col-md-4 col-md-offset-0">
-                <h2>
-                    More fixed-plan experiments
-                </h2>
-                <video class="lazy" id="v_fixed_plan_more" width="100%" autoplay loop muted>
-                    <source data-src="img/fixed_plan_compressed.mp4" />
-                </video>
-            </div>
-            <div class="col-md-8 col-md-offset-2">
-                <h2>
-                    Outdoor experiment
-                </h2>
-                <p>
-                    Note there is <b>no GPS/SLAM/anchors</b> technology used to realize this task.
-                </p>
-                <video class="lazy" id="v_outdoor" width="100%" autoplay loop muted>
-                    <source data-src="img/outdoor_compressed.mp4" />
-                </video>
-            </div>
-        </div>
 
-        <div class="row">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <h2>Tracked robot</h2>
+                </div>
+                <div class="col-md-4 col-md-offset-2">
+                    <video class="lazy" id="video2" style="display: block; margin: 0 auto;" width="60%" autoplay loop muted>
+                        <source data-src="img/track1_x264.mp4" />
+                    </video>
+                </div>
+                <div class="col-md-4">
+                    <video class="lazy" id="video2" style="display: block; margin: 0 auto;" width="60%" autoplay loop muted>
+                        <source data-src="img/track2_x264.mp4" />
+                    </video>
+                </div>
+            </div>
+
+            
+
+        <!-- <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <h1>
                     Citation
@@ -271,9 +285,9 @@
 }
 </textarea>
             </div>
-        </div>
+        </div> -->
 
-        <div class="row">
+        <!-- <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <h1>
                     Acknowledgements
@@ -299,7 +313,7 @@
                         href="https://dorverbin.github.io/refnerf">Ref-NeRF</a>.
                 </p>
             </div>
-        </div>
+        </div> -->
 
         <!-- contact -->
         <div class="container">
