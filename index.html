@@ -167,17 +167,48 @@
                     Visual comparison of different methods. Proposed method and TEB are set to allow move backward.  
                     We use Jump Point Search (JPS) as initial value, Differential-flatness Based Method [1], Timed Elastic Band (TEB) [2] as benchmark. 
                 </div>
-            <br>
-                <div class="text-center">
-                    <img src="img/replan.png" class="mx-auto d-block" width="80%" />
+        </div>
+        
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2" onmouseout="simulation_stop()" onmouseover="simulation_start()">
+                <div style="width: 100%; position: relative;">
+                    <div id="simulation_demo"
+                        style="width: 100%; position: absolute; transition: opacity .2s ease-in-out; -moz-transition: opacity .2s ease-in-out; -webkit-transition: opacity .2s ease-in-out;">
+                        <!-- <video controls class="lazy" id="v0" width="100%" autoplay loop muted> -->
+                        <video controls class="lazy" id="v0" width="100%" loop muted>
+                            <source data-src="img/U5_all_x264.mp4" />
+                        </video>
+                    </div>
+                    <div class="text-center">
+                        <img src="img/replan.png" class="mx-auto d-block" width="80%" />
+                    </div>
+                    <div style="width: 80%; margin-left: auto; margin-right: auto; font-size: 14px">
+                        Simulation results for replanning. 
+                        We use 360° radar simulator to create maps during runtime. 
+                        The upper figure shows the simulation results of the U-shaped environment. The lower figure shows a specially designed environment containing many obstacles that may be sheltered. 
+                    </div>
                 </div>
-                <div style="width: 80%; margin-left: auto; margin-right: auto; font-size: 14px">
-                    Simulation results for replanning. 
-                    We use 360° radar simulator to create maps during runtime. 
-                    The upper figure shows the simulation results of the U-shaped environment. The lower figure shows a specially designed environment containing many obstacles that may be sheltered. 
-                </div>
-                    
             </div>
+            <!-- <div class="col-md-8 col-md-offset-2">
+                <p class="text-justify">
+                    </br>
+                    A quadrotor orbits a UGV by applying CoNi-MPC controller with a pre-computed circular trajectory in
+                    the UGV non-inertial frame.
+                    (a) is the accumulated shots of the quadrotor from the view of a camera on the UGV, which shows the
+                    relative circular trajectory of the quadrotor.
+                    (b) shows the experiment from a third-person view in the world frame, in which the flight trajectory
+                    appears chaotic along with the UGV S-shape trajectory.
+                </p>
+            </div> -->
+            <script type="text/javascript">
+                function simulation_start() {
+                    document.getElementById('simulation_demo').style.opacity = "1";
+                }
+                function simulation_stop() {
+                    document.getElementById('simulation_demo').style.opacity = "0";
+                }
+                coni_stop()
+            </script>
         </div>
 
         <div class="row">
@@ -190,7 +221,7 @@
                 <h2>
                     Two-wheel differential driven robot 
                 </h2>
-                <video class="lazy" id="v_fixed_point" style="display: block; margin: 0 auto;" width="60%" autoplay loop muted>
+                <video controls class="lazy" id="v_fixed_point" style="display: block; margin: 0 auto;" width="60%"  loop muted>
                     <source data-src="img/differential-driven.mp4" />
                 </video>
                 <div style="width: 80%; margin-left: auto; margin-right: auto; font-size: 14px">
@@ -214,15 +245,15 @@
                     We randomly place obstacles and use fastlio for localization, simulating the real-world application. 
                 </div> -->
                 <div class="col-md-4 col-md-offset-2">
-                    <video class="lazy" id="video1" style="display: block; margin: 0 auto;" width="100%" autoplay loop muted>
+                    <video controls class="lazy" id="video1" style="display: block; margin: 0 auto;" width="100%"  loop muted>
                         <source data-src="img/skid1.mp4" />
                     </video>
                     <div style="width: 80%; margin-left: auto; margin-right: auto; font-size: 14px">
-                        Online mapping and re-planning(ERROR)
+                        Online mapping and re-planning
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <video class="lazy" id="video2" style="display: block; margin: 0 auto;" width="100%" autoplay loop muted>
+                    <video controls class="lazy" id="video2" style="display: block; margin: 0 auto;" width="100%"  loop muted>
                         <source data-src="img/skid2.mp4" />
                     </video>
                     <div style="width: 80%; margin-left: auto; margin-right: auto; font-size: 14px">
@@ -230,26 +261,13 @@
                     </div>
                     <br>
                 </div>
-                <div class="col-md-4 col-md-offset-2">
-                    <video class="lazy" id="video1" style="display: block; margin: 0 auto;" width="100%" autoplay loop muted>
-                        <source data-src="img/skid2_batch.mp4" />
+                <div class="col-md-8 col-md-offset-2">
+                    <video controls class="lazy" id="video1" style="display: block; margin: 0 auto;" width="100%"  loop muted>
+                        <source data-src="img/skid_batch_x264.mp4" />
                     </video>
-                </div>
-                <div class="col-md-4">
-                    <video class="lazy" id="video2" style="display: block; margin: 0 auto;" width="100%" autoplay loop muted>
-                        <source data-src="img/skid3_batch.mp4" />
-                    </video>
-                    <br>
-                </div>
-                <div class="col-md-4 col-md-offset-2">
-                    <video class="lazy" id="video2" style="display: block; margin: 0 auto;" width="100%" autoplay loop muted>
-                        <source data-src="img/skid4_batch.mp4" />
-                    </video>
-                </div>
-                <div class="col-md-4">
-                    <video class="lazy" id="video2" style="display: block; margin: 0 auto;" width="100%" autoplay loop muted>
-                        <source data-src="img/skid5_batch.mp4" />
-                    </video>
+                    <div style="width: 80%; margin-left: auto; margin-right: auto; font-size: 14px">
+                        All examples are Online mapping and re-planning
+                    </div>
                 </div>
             </div>
 
@@ -258,14 +276,19 @@
                     <h2>Tracked robot</h2>
                 </div>
                 <div class="col-md-4 col-md-offset-2">
-                    <video class="lazy" id="video2" style="display: block; margin: 0 auto;" width="60%" autoplay loop muted>
+                    <video controls class="lazy" id="video2" style="display: block; margin: 0 auto;" width="60%"  loop muted>
                         <source data-src="img/track1_x264.mp4" />
                     </video>
                 </div>
                 <div class="col-md-4">
-                    <video class="lazy" id="video2" style="display: block; margin: 0 auto;" width="60%" autoplay loop muted>
+                    <video controls class="lazy" id="video2" style="display: block; margin: 0 auto;" width="60%"  loop muted>
                         <source data-src="img/track2_x264.mp4" />
                     </video>
+                </div>
+                <div class="col-md-8 col-md-offset-2">
+                    <div style="width: 80%; margin-left: auto; margin-right: auto; font-size: 14px">
+                        All examples are Online mapping and re-planning
+                    </div>
                 </div>
             </div>
 
