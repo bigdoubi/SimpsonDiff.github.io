@@ -28,6 +28,9 @@
     <script src="js/katex-auto-render.min.js"></script>
     <link rel="stylesheet" href="css/katex.min.css">
 
+    <script src="https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js" async></script>
+
+
 </head>
 
 
@@ -119,17 +122,32 @@
 
         <div class="row">
             <div class="col-md-8 col-md-offset-2 text-center">
-                <img src="img/head_figure.png" class="mx-auto d-block" width="75%" />
+                <img src="img/head_figure.png" class="mx-auto d-block" width="80%" />
             </div>
         </div>
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <p class="text-justify">
-                    Planning results for various differential driven robots. (a) Two-wheel differential driven robot. (b) Skid-steering robot. (c) Tracked robot.
+                    Various differential driven (DD) robots, kinematics models and planning results. 
+                    We abbreviate the center of rotation, the driving wheel, and the universal wheel as CoR, D-wheel, and U-wheel respectively. 
+                    (a) Two-wheeled differential driven (SDD) robot. (b) Skid-steering (SKDD) robot. (c) Tracked (TDD) robot.
                 </p>
             </div>
         </div>
-
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2 text-center">
+                <img src="img/head_figure_trajectory2.png" class="mx-auto d-block" width="80%" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <p class="text-justify">
+                    The trajectory optimization in narrow environments. 
+                    The robot should perceive the environment and replan to avoid obstacles. 
+                    Due to the initial orientation and the narrow passable area, the robot needs to reach the destination through moving backward and complex maneuvers.
+                </p>
+            </div>
+        </div>
 
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
@@ -137,14 +155,16 @@
                     Abstract
                 </h1>
                 <p class="text-justify">
-                    Differential driven robots are widely used in various scenarios, such as skid-steering and tracked robots. 
-                    The differences in the driving mechanism require different kinematic models to describe them. 
-                    What's more, considering the nonholonomic dynamics and possible lateral sliding, a comprehensive trajectory optimization framework is needed for efficiently computing trajectories for such robots. 
-                    In this paper, we propose a universal trajectory optimization framework that can be applied to common differential driven robots, enabling the generation of high-quality trajectories within a limited computation time. 
-                    We introduce a novel control quantities polynomial trajectory that adequately describes robots' motion. 
-                    We formulate the trajectory optimization problem with lower complexity while ensuring safety and operational efficiency. 
-                    We enhance the entire trajectory planning system to improve its robustness. 
-                    The effectiveness of our algorithm has been validated through simulations and real-world experiments. 
+                    Differential-driven robots are widely used in various scenarios thanks to their straightforward principle, from household service robots to disaster response field robots.
+                    However, there are several different types of deriving mechanisms considering the real-world applications, including two-wheeled, four-wheeled skid-steering, tracked robots, etc. 
+                    The differences in the driving mechanism usually require specific kinematic modeling when precise controlling is desired. 
+                    Furthermore, the nonholonomic dynamics and possible lateral slip lead to different degrees of difficulty in getting feasible and high-quality trajectories.
+                    Therefore, a comprehensive trajectory optimization framework to compute trajectories efficiently for various kinds of differential-driven robots is highly desirable. 
+                    In this paper, we propose a universal trajectory optimization framework that can be applied to differential-driven robot class, enabling the generation of high-quality trajectories within a restricted computational timeframe. 
+                    We introduce a novel trajectory representation based on polynomial parameterization of motion states, that inherently matching robots' motion to the control principle for differential driven robot class. 
+                    The trajectory optimization problem is formulated to minimize complexity while prioritizing safety and operational efficiency.
+                    We then build a full-stack autonomous planning and control system to show the feasibility and robustness. 
+                    We conduct extensive simulations and real-world testing in crowded environments with three kinds of differential-driven robots to validate the effectiveness of our approach.
                 </p>
             </div>
         </div>
@@ -157,7 +177,8 @@
                     <img src="img/tracked_traj.png" class="mx-auto d-block" width="70%" />
                 </div>
                 <div style="width: 70%; margin-left: auto; margin-right: auto; font-size: 14px">
-                    Planning results with(lower) and without(upper) considering sideslip.
+                    Planning results without(a) and with(b) considering lateral slip.
+                    To better reflect the discrepancy between the two results, we locally enlarged the trajectory sections with large curvature.
                 </div>
             <br>
                 <div class="text-center">
@@ -165,7 +186,18 @@
                 </div>
                 <div style="width: 70%; margin-left: auto; margin-right: auto; font-size: 14px">
                     Visual comparison of different methods. Proposed method and TEB are set to allow move backward.  
-                    We use Jump Point Search (JPS) as initial value, Differential-flatness Based Method [1], Timed Elastic Band (TEB) [2] as benchmark. 
+                    We use Jump Point Search (JPS) as initial value, Differential-flatness Based Method, Timed Elastic Band (TEB) as benchmark. 
+                </div>
+            <br>
+                <div class="text-center">
+                    <img src="img/patrol.png" class="mx-auto d-block" width="70%" />
+                </div>
+                <div style="width: 70%; margin-left: auto; margin-right: auto; font-size: 14px">
+                    Patrolling with DFB and Proposed methods, the next target is provided to the planner upon nearing the current target. 
+                    ① is the starting position, with the initial state directed towards the positive right-hand side. 
+                    We use the gradient color to show the angular velocity in ②-④. 
+                    The robot moves around the obstacle in ②. 
+                    In ③ and ④, a new target is provided to the planner, prompting the robot to turn towards the new target.
                 </div>
         </div>
         
@@ -189,17 +221,6 @@
                     </div>
                 </div>
             </div>
-            <!-- <div class="col-md-8 col-md-offset-2">
-                <p class="text-justify">
-                    </br>
-                    A quadrotor orbits a UGV by applying CoNi-MPC controller with a pre-computed circular trajectory in
-                    the UGV non-inertial frame.
-                    (a) is the accumulated shots of the quadrotor from the view of a camera on the UGV, which shows the
-                    relative circular trajectory of the quadrotor.
-                    (b) shows the experiment from a third-person view in the world frame, in which the flight trajectory
-                    appears chaotic along with the UGV S-shape trajectory.
-                </p>
-            </div> -->
             <script type="text/javascript">
                 function simulation_start() {
                     document.getElementById('simulation_demo').style.opacity = "1";
